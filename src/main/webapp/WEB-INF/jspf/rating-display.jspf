@@ -1,0 +1,21 @@
+<%-- rating-display.jspf
+     Requires in scope: Book b
+     Renders: read-only DaisyUI star rating + count label
+--%>
+<%
+    int _rounded = b.getRoundedRating();
+    String _rid = "rd-" + b.getId().substring(0, 6) + "-" + java.util.UUID.randomUUID().toString().substring(0, 5);
+%>
+<div class="flex items-center gap-1.5 my-1">
+    <div class="rating rating-xs pointer-events-none">
+        <input type="radio" name="<%= _rid %>" class="rating-hidden" <%= _rounded == 0 ? "checked" : "" %> />
+        <input type="radio" name="<%= _rid %>" class="mask mask-star-2 bg-orange-400" <%= _rounded == 1 ? "checked" : "" %> />
+        <input type="radio" name="<%= _rid %>" class="mask mask-star-2 bg-orange-400" <%= _rounded == 2 ? "checked" : "" %> />
+        <input type="radio" name="<%= _rid %>" class="mask mask-star-2 bg-orange-400" <%= _rounded == 3 ? "checked" : "" %> />
+        <input type="radio" name="<%= _rid %>" class="mask mask-star-2 bg-orange-400" <%= _rounded == 4 ? "checked" : "" %> />
+        <input type="radio" name="<%= _rid %>" class="mask mask-star-2 bg-orange-400" <%= _rounded == 5 ? "checked" : "" %> />
+    </div>
+    <span class="text-xs text-base-content/50">
+        <% if (b.getRatingCount() == 0) { %>no ratings<% } else { %><%= String.format("%.1f", b.getAverageRating()) %> (<%= b.getRatingCount() %>)<% } %>
+    </span>
+</div>

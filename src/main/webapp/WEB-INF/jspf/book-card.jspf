@@ -1,0 +1,45 @@
+<%-- book-card.jspf
+     Requires in scope: Book b, String contextPath
+     Renders: a DaisyUI card with cover image, rating, borrowed count
+--%>
+<div class="card w-48 bg-base-100 shadow-lg hover-lift overflow-hidden group">
+    <figure class="relative h-64 overflow-hidden bg-base-300">
+        <a href="book.jsp?id=<%= b.getId() %>" class="w-full h-full block">
+            <img src="<%= b.getCoverUrl() %>"
+                 alt="<%= b.getTitle() %>"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                 onerror="this.style.display='none'" />
+        </a>
+        <% if (b.isNew()) { %>
+        <div class="absolute top-2 left-2">
+            <span class="badge badge-accent badge-sm font-bold">NEW</span>
+        </div>
+        <% } %>
+        <% if (!b.isAvailable()) { %>
+        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <span class="badge badge-error font-semibold">Out of Stock</span>
+        </div>
+        <% } %>
+    </figure>
+    <div class="card-body p-3 gap-1">
+        <a href="book.jsp?id=<%= b.getId() %>" class="hover:text-primary transition-colors">
+            <h4 class="font-bold text-sm line-clamp-2 leading-tight"><%= b.getTitle() %></h4>
+        </a>
+        <p class="text-xs text-base-content/60 truncate"><%= b.getAuthor() %></p>
+        <%@ include file="/WEB-INF/jspf/rating-display.jspf" %>
+        <div class="flex items-center justify-between mt-1">
+            <span class="text-xs text-base-content/50 flex items-center gap-1">
+                <i data-lucide="book-open" class="w-3 h-3"></i>
+                <%= b.getBorrowedCount() %>
+            </span>
+            <% if (b.isAvailable()) { %>
+            <button type="button" class="btn btn-xs btn-primary rounded-full"
+                    onclick="openBorrowModal('<%= b.getId() %>', '<%= b.getTitle().replace("'", "\\'") %>')">
+                Borrow
+            </button>
+            <% } else { %>
+            <span class="badge badge-xs badge-error badge-outline">Unavailable</span>
+            <% } %>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<%-- rating-modal.jspf
+     Renders: DaisyUI dialog for rating a book before returning it.
+     JS: openRatingModal(borrowId, bookTitle) sets the hidden fields and shows the dialog.
+--%>
+<dialog id="ratingModal" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box glass-panel max-w-sm text-center">
+        <div class="flex justify-center mb-4">
+            <div class="p-3 bg-warning/10 rounded-2xl">
+                <i data-lucide="star" class="w-8 h-8 text-warning"></i>
+            </div>
+        </div>
+        <h3 class="font-bold text-xl mb-1">Rate this Book</h3>
+        <p class="text-base-content/60 text-sm mb-1">How would you rate</p>
+        <p id="ratingModalTitle" class="font-bold text-primary mb-5"></p>
+
+        <form action="${pageContext.request.contextPath}/return" method="post">
+            <input type="hidden" id="ratingBorrowId" name="borrowId" />
+
+            <!-- DaisyUI Rating Component -->
+            <div class="flex justify-center mb-6">
+                <div class="rating rating-lg gap-1">
+                    <input type="radio" name="rating" value="0" class="rating-hidden" checked />
+                    <input type="radio" name="rating" value="1" class="mask mask-star-2 bg-orange-400" aria-label="1 star" />
+                    <input type="radio" name="rating" value="2" class="mask mask-star-2 bg-orange-400" aria-label="2 stars" />
+                    <input type="radio" name="rating" value="3" class="mask mask-star-2 bg-orange-400" aria-label="3 stars" />
+                    <input type="radio" name="rating" value="4" class="mask mask-star-2 bg-orange-400" aria-label="4 stars" />
+                    <input type="radio" name="rating" value="5" class="mask mask-star-2 bg-orange-400" aria-label="5 stars" />
+                </div>
+            </div>
+
+            <div class="modal-action justify-center gap-3">
+                <button type="submit" name="rating" value="0" class="btn btn-ghost btn-sm gap-2"
+                        formnovalidate>
+                    <i data-lucide="skip-forward" class="w-4 h-4"></i>
+                    Skip & Return
+                </button>
+                <button type="submit" class="btn btn-warning btn-sm gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Submit & Return
+                </button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
+</dialog>
+
+<script>
+    function openRatingModal(borrowId, title) {
+        document.getElementById('ratingBorrowId').value = borrowId;
+        document.getElementById('ratingModalTitle').textContent = '"' + title + '"';
+        // reset stars
+        document.querySelector('#ratingModal input[type=radio][value="0"]').checked = true;
+        document.getElementById('ratingModal').showModal();
+    }
+</script>

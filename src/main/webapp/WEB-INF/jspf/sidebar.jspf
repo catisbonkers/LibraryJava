@@ -1,0 +1,44 @@
+<%@ page import="com.example.demo1.model.User" %>
+<%
+    String currentURI = request.getRequestURI();
+    boolean isDashboard = currentURI.endsWith("/dashboard.jsp");
+    boolean isBooks = currentURI.endsWith("/books.jsp");
+    boolean isMyBooks = currentURI.endsWith("/mybooks.jsp");
+    boolean isAdmin = currentURI.endsWith("/admin.jsp");
+    boolean isHistory = currentURI.endsWith("/history.jsp");
+    boolean isAdminUsers = currentURI.endsWith("/admin-users.jsp");
+    boolean isAdminReports = currentURI.endsWith("/admin-reports.jsp");
+    User sidebarUser = (User) session.getAttribute("user");
+%>
+<div class="drawer-side z-40 shadow-xl">
+    <label for="drawer" class="drawer-overlay"></label>
+    <ul class="menu p-4 w-72 h-full glass-panel text-base-content border-r border-base-300">
+        <a href="dashboard.jsp">
+            <div class="flex items-center gap-3 mb-8 px-4 mt-4">
+                <div class="avatar placeholder items-center justify-center">
+                    <div class="bg-primary text-primary-content rounded-full w-10 items-center justify-center flex">
+                        <div class="icon-library items-center justify-center"></div>
+                    </div>
+                </div>
+                <span class="text-xl font-bold bg-clip-text text-black bg-gradient-to-r from-primary to-secondary">LibraSync</span>
+            </div>
+        </a>
+
+        <li class="mb-1"><a href="dashboard.jsp" class="<%= isDashboard ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-house"></div></span> Dashboard</a></li>
+        <li class="mb-1"><a href="books.jsp" class="<%= isBooks ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-library-big"></div></span> Browse Books</a></li>
+        <li class="mb-1"><a href="mybooks.jsp" class="<%= isMyBooks ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-book-open"></div></span> My Borrows</a></li>
+        <li class="mb-1"><a href="history.jsp" class="<%= isHistory ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-history"></div></span> History</a></li>
+
+        <% if (sidebarUser != null && sidebarUser.isAdmin()) { %>
+        <div class="divider text-xs opacity-50 mt-4">ADMINISTRATION</div>
+        <li class="mb-1"><a href="admin.jsp" class="<%= isAdmin ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-file-sliders"></div></span> Manage Library</a></li>
+        <li class="mb-1"><a href="admin-users.jsp" class="<%= isAdminUsers ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-users"></div></span> Manage Users</a></li>
+        <li class="mb-1"><a href="admin-reports.jsp" class="<%= isAdminReports ? "active bg-primary/10 text-primary font-semibold" : "hover:bg-base-200" %>"><span class="text-lg"><div class="icon-file-text"></div></span> Reports</a></li>
+        <% } %>
+
+        <div class="mt-auto">
+            <div class="divider mb-2"></div>
+            <li><a href="logout" class="text-error hover:bg-error/10"><span class="text-lg"><div class="icon-log-out"></div></span> Logout</a></li>
+        </div>
+    </ul>
+</div>
