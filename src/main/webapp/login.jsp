@@ -40,7 +40,7 @@
         <!-- Image -->
         <figure class="relative lg:w-1/2">
             <img
-                    src="https://images.stockcake.com/public/f/0/c/f0ce76f2-bd96-455c-8fca-ba5f777772e8_large/library-reading-session-stockcake.jpg"
+                    src="${pageContext.request.contextPath}/assets/sidebar.webp"
                     alt="Library"
                     class="h-full w-full object-cover"
             />

@@ -57,7 +57,7 @@ public class EditBookServlet extends HttpServlet {
                         if (filePart != null && filePart.getSize() > 0) {
                             String fileName = UUID.randomUUID().toString() + "_" + filePart.getSubmittedFileName();
                             // Save directly to workspace directory
-                            String uploadPath = "c:/Users/johnt/Downloads/java/demo1/src/main/webapp/uploads";
+                            String uploadPath = getServletContext().getRealPath("/uploads");
                             File uploadDir = new File(uploadPath);
                             if (!uploadDir.exists()) uploadDir.mkdir();
                             filePart.write(uploadPath + File.separator + fileName);
