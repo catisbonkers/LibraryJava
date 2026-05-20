@@ -4,12 +4,29 @@
 --%>
 <div class="card w-48 bg-base-100 shadow-lg hover-lift overflow-hidden group">
     <figure class="relative h-64 overflow-hidden bg-base-300">
+        <%
+            String cover = b.getCoverUrl();
+            if (cover.startsWith("http")) {
+        %>
         <a href="book.jsp?id=<%= b.getId() %>" class="w-full h-full block">
-            <img src="<%= b.getCoverUrl() %>"
+            <img src="<%= cover %>"
                  alt="<%= b.getTitle() %>"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                  onerror="this.style.display='none'" />
         </a>
+        <%
+        } else {
+        %>
+        <a href="book.jsp?id=<%= b.getId() %>" class="w-full h-full block">
+            <img src="${pageContext.request.contextPath}<%= b.getCoverUrl() %>"
+                 alt="<%= b.getTitle() %>"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                 onerror="this.style.display='none'" />
+        </a>
+        <%
+            }
+        %>
+
         <% if (b.isNew()) { %>
         <div class="absolute top-2 left-2">
             <span class="badge badge-accent badge-sm font-bold">NEW</span>

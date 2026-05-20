@@ -45,7 +45,16 @@ public class Book {
     public void setPublishYear(int publishYear) { this.publishYear = publishYear; }
     public int getStock() { return stock.get(); }
     public void setStock(int stock) { this.stock.set(stock); }
-    public String getCoverUrl() { return coverUrl; }
+    public String getCoverUrl() {
+
+        if (coverUrl == null || coverUrl.isBlank()) {
+            return "https://picsum.photos/seed/"
+                    + this.id.substring(0, 8)
+                    + "/300/420";
+        }
+
+        return coverUrl;
+    }
     public void setCoverUrl(String coverUrl) { this.coverUrl = coverUrl; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

@@ -70,7 +70,18 @@
                     <!-- Cover Image -->
                     <div class="md:w-1/3 shrink-0">
                         <figure class="relative rounded-2xl overflow-hidden shadow-md aspect-[3/4] bg-base-300">
-                            <img src="<%= book.getCoverUrl() %>" alt="<%= book.getTitle() %>" class="w-full h-full object-cover" />
+                            <%
+                                String cover = b.getCoverUrl();
+                                if (cover.startsWith("http")) {
+                            %>
+                            <img src="<%= cover %>" alt="<%= book.getTitle() %>" class="w-full h-full object-cover" />
+                            <%
+                            } else {
+                            %>
+                            <img src="${pageContext.request.contextPath}<%= book.getCoverUrl() %>" alt="<%= book.getTitle() %>" class="w-full h-full object-cover" />
+                            <%
+                                }
+                            %>
                             <% if (book.isNew()) { %>
                                 <div class="absolute top-3 left-3">
                                     <span class="badge badge-accent shadow-sm font-bold">NEW</span>
