@@ -30,6 +30,7 @@ public class User {
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
     public LocalDate getDateRegistered() { return dateRegistered; }
+    public void setDateRegistered(LocalDate dateRegistered) { this.dateRegistered = dateRegistered; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public String getStatusReason() { return statusReason; }

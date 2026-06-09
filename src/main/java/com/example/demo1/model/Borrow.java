@@ -21,9 +21,12 @@ public class Borrow {
     }
 
     public String getBorrowId() { return borrowId; }
+    public void setBorrowId(String borrowId) { this.borrowId = borrowId; }
     public String getUsername() { return username; }
     public String getBookId() { return bookId; }
     public LocalDate getBorrowDate() { return borrowDate; }
+    public void setBorrowDate(LocalDate borrowDate) { this.borrowDate = borrowDate; }
     public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
     public int getDaysBorrowed() { return daysBorrowed; }
 }

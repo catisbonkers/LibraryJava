@@ -19,7 +19,9 @@ public class ReturnRecord {
     }
 
     public String getReturnId() { return returnId; }
+    public void setReturnId(String returnId) { this.returnId = returnId; }
     public LocalDate getReturnDate() { return returnDate; }
+    public void setReturnDate(LocalDate returnDate) { this.returnDate = returnDate; }
     public double getFine() { return fine; }
     public String getUsername() { return username; }
     public String getBookId() { return bookId; }

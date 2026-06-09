@@ -35,6 +35,7 @@ public class Book {
     }
 
     public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getAuthor() { return author; }
@@ -59,8 +60,12 @@ public class Book {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     public int getBorrowedCount() { return borrowedCount.get(); }
+    public void setBorrowedCount(int borrowedCount) { this.borrowedCount.set(borrowedCount); }
     public LocalDate getAddedDate() { return addedDate; }
+    public void setAddedDate(LocalDate addedDate) { this.addedDate = addedDate; }
     public int getRatingCount() { return ratingCount.get(); }
+    public void setRatingCount(int count) { this.ratingCount.set(count); }
+    public void setRatingSum(double sum) { this.ratingSum.reset(); this.ratingSum.add(sum); }
 
     public double getAverageRating() {
         int count = ratingCount.get();
