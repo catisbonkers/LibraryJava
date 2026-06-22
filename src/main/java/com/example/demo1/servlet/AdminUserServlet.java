@@ -21,29 +21,48 @@ public class AdminUserServlet extends HttpServlet {
         String targetUser = req.getParameter("username");
 
         if (targetUser != null) {
-            for (User u : UserService.getAllUsers()) {
-                if (u.getUsername().equals(targetUser)) {
-                    if ("verify".equals(action)) {
-                        u.setStatus("VERIFIED");
-                        u.setStatusReason(null);
-                    } else if ("ban".equals(action)) {
-                        u.setStatus("BANNED");
-                        String reason = req.getParameter("reason");
-                        if (reason != null && !reason.trim().isEmpty()) {
-                            u.setStatusReason(reason);
-                        } else {
-                            u.setStatusReason("Violated library policies");
-                        }
-                    } else if ("unban".equals(action)) {
-                        u.setStatus("VERIFIED");
-                        u.setStatusReason(null);
-                    } else if ("updateLimit".equals(action)) {
+
+            if ("verify".equals(action)) {
+
+                UserService.updateUserStatus(
+                        targetUser,
+                        "VERIFIED",
+                        null
+                );
+
+            } else if ("ban".equals(action)) {
+
+                String reason = req.getParameter("reason");
+
+                if (reason == null || reason.trim().isEmpty()) {
+                    reason = "Violated library policies";
+                }
+
+                UserService.updateUserStatus(
+                        targetUser,
+                        "BANNED",
+                        reason
+                );
+
+            } else if ("unban".equals(action)) {
+
+                UserService.updateUserStatus(
+                        targetUser,
+                        "VERIFIED",
+                        null
+                );
+
+            } else if ("updateLimit".equals(action)) {
+
+                for (User u : UserService.getAllUsers()) {
+                    if (u.getUsername().equals(targetUser)) {
                         try {
                             int newLimit = Integer.parseInt(req.getParameter("limit"));
                             u.setBorrowLimit(newLimit);
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
