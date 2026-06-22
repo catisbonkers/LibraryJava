@@ -1,8 +1,5 @@
 package com.example.demo1.service;
 
-import com.example.demo1.model.User;
-import com.example.demo1.util.DBUtil;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,14 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo1.model.User;
+import com.example.demo1.util.DBUtil;
+
 public class UserService {
 
     public static List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users";
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 users.add(mapUser(rs));
             }
@@ -28,10 +26,9 @@ public class UserService {
     }
 
     public static boolean register(String username, String password, String role, String address) {
-        String sql = "INSERT INTO users (username, password, role, address, date_registered, status, status_reason, borrow_limit, jumlah_pinjam) " +
-                     "VALUES (?, ?, ?, ?, CURDATE(), 'UNVERIFIED', 'Pending admin verification', 5, 0)";
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String sql = "INSERT INTO users (username, password, role, address, date_registered, status, status_reason, borrow_limit, jumlah_pinjam) "
+                + "VALUES (?, ?, ?, ?, CURDATE(), 'UNVERIFIED', 'Pending admin verification', 5, 0)";
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
             stmt.setString(3, role);
@@ -46,8 +43,7 @@ public class UserService {
 
     public static User login(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -66,8 +62,7 @@ public class UserService {
             return false;
         }
         String sql = "DELETE FROM users WHERE username = ?";
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             int rows = stmt.executeUpdate();
             return rows > 0;
@@ -79,8 +74,7 @@ public class UserService {
 
     public static User getUserByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -91,6 +85,27 @@ public class UserService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean updateUserStatus(String username,
+            String status,
+            String reason) {
+
+        String sql = "UPDATE users SET status = ?, status_reason = ? WHERE username = ?";
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, status);
+            stmt.setString(2, reason);
+            stmt.setString(3, username);
+
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private static User mapUser(ResultSet rs) throws SQLException {
